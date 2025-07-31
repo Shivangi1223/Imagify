@@ -67,15 +67,15 @@ export const testimonialsData = [
         image:profile_img_2,
         name:'Richard Nelson',
         role:'Content Creator',
-        stars:5,
-        text:`I've been using bg.removal for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.`
+        stars:4,
+        text:`For about two years now, I've relied on bg.removal for reels, and it's been extremely easy to use, simplifying my creative process greatly.`
     },
     {
         image:profile_img_1,
-        name:'Donald Jackman',
+        name:'Jackman Ford',
         role:' Graphic Designer',
         stars:5,
-        text:`I've been using bg.removal for nearly two years, primarily for Instagram, and it has been incredibly user-friendly, making my work much easier.`
+        text:`I’ve used bg.removal for nearly two years, mainly for Instagram, and it consistently delivers fast, clean results that simplify my workflow tremendously.`
     },
 ]
 

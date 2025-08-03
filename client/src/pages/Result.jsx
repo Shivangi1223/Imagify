@@ -67,7 +67,6 @@ const Result = () => {
     }
 
 
-
     </motion.form>
 
     

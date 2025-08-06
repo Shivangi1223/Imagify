@@ -10,6 +10,8 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Login from './components/Login'
 import { AppContext } from './context/AppContext'
+// import Landing from './pages/Landing'; // Add this import
+
 // import Result from './pages/Result'
 
 const App = () => {
@@ -22,6 +24,7 @@ const App = () => {
       <Navbar />
       {showLogin && <Login/>}
       <Routes>
+      {/* <Route path='/' element={<Landing />} /> */}
       <Route path='/' element={<Home/>}/>
       <Route path='/result' element={<Result/>}/>
       <Route path='/buy' element={<BuyCredit/>}/>

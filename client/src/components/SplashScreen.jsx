@@ -1,114 +1,142 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const SplashScreen = () => {
-  const navigate = useNavigate();
+  const headingText = "Imagify";
+  const lines = ["Welcome to My Imagify Website! 🚀"];
 
-  const lines = [
-    "Welcome to My Imagify Website!",
-    "Turn your imagination into beautiful images ✨"
-  ];
-
-  const [visibleLines, setVisibleLines] = useState([]);
+  const [heading, setHeading] = useState("");
+  const [firstLine, setFirstLine] = useState("");
+  const [secondLine, setSecondLine] = useState("");
 
   useEffect(() => {
-    // Lines show sequentially
-    lines.forEach((_, index) => {
-      setTimeout(() => {
-        setVisibleLines((prev) => [...prev, lines[index]]);
-      }, index * 1500);
-    });
+    let h = 0;
+    const headingTimer = setInterval(() => {
+      h++;
+      setHeading(headingText.slice(0, h));
+      if (h >= headingText.length) {
+        clearInterval(headingTimer);
 
-    // Redirect after all lines appear
-    const timer = setTimeout(() => {
-      navigate("/");
-    }, 5000);
+        // First line typing
+        let i = 0;
+        const firstTimer = setInterval(() => {
+          i++;
+          setFirstLine(lines[0].slice(0, i));
+          if (i >= lines[0].length) {
+            clearInterval(firstTimer);
 
-    return () => clearTimeout(timer);
-  }, [navigate]);
+            // Second line typing (if any)
+            let j = 0;
+            const secondTimer = setInterval(() => {
+              j++;
+              setSecondLine(lines[1]?.slice(0, j) || "");
+              if (j >= (lines[1]?.length || 0)) {
+                clearInterval(secondTimer);
+              }
+            }, 50);
+          }
+        }, 50);
+      }
+    }, 50);
+
+    return () => clearInterval(headingTimer);
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-teal-50 to-orange-50 text-center px-6 overflow-hidden relative">
-
-      {/* Heading above Robot */}
-      <h1
-        className="flex items-center gap-2 text-4xl sm:text-5xl font-bold text-blue-600 mb-6 
-                   transition-transform duration-300 hover:scale-110 cursor-pointer"
-      >
-        Imagify <span className="text-3xl sm:text-4xl">🚀</span>
+      
+      {/* Heading typing animation with logo */}
+      <h1 className="flex items-center gap-3 text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-transparent bg-clip-text drop-shadow-lg">
+        <img
+          src="/favicon.svg" // direct public folder path
+          alt="Imagify Logo"
+          className="w-12 h-12"
+        />
+        {heading}
       </h1>
 
-
       {/* Robot GIF */}
-      <img
+      {/* <img
         src="/myCutie.gif"
         alt="Cutie Robot"
-        className="w-72 sm:w-80 mb-3 animate-[float_3s_ease-in-out_infinite] 
-                   transform transition-transform duration-500 hover:scale-125"
-      />
-      {/* Loading Line under Robot */}
-      {/* Loading Line under Robot */}
-      <div className="w-full max-w-md h-2 bg-gray-200 rounded-full mb-6 overflow-hidden">
-        <div className="h-full animate-loading bg-gradient-to-r from-blue-400 via-blue-600 to-blue-400 bg-[length:200%_100%]"></div>
-      </div>
+        className="w-72 sm:w-80 mb-6 animate-bounce-slow"
+      /> */}
 
-      <style>
-        {`
-  /* Robot float animation */
-  @keyframes float {
-    0% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-15px) rotate(2deg); }
-    100% { transform: translateY(0) rotate(0deg); }
-  }
+      {/* <img
+  src="/myCutie.gif"
+  alt="Cutie Robot"
+  className="w-72 sm:w-80 mb-6 animate-bounce-slow drop-shadow-2xl"
+  style={{
+    filter: "drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 10px rgba(255, 255, 255, 0.6))"
+  }}
+/> */}
 
-  /* Loading Bar Animation */
-  @keyframes loading {
-    0% {
-      width: 0%;
-      background-position: 200% 0;
-    }
-    100% {
-      width: 100%;
-      background-position: -200% 0;
-    }
+<img
+  src="/myCutie.gif"
+  alt="Cutie Robot"
+  className="w-72 sm:w-80 mb-6 bounce-tilt-glow"
+  style={{
+    filter: `
+      drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5)) /* deep shadow */
+      drop-shadow(0 0 15px rgba(255, 255, 255, 0.8)) /* outer glow */
+      drop-shadow(0 0 25px rgba(0, 200, 255, 0.5)) /* neon bluish glow */
+    `
+  }}
+/>
+
+<style>
+{`
+  @keyframes bounceTilt {
+    0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg) scale(1); }
+    25% { transform: translateY(-8px) rotateX(3deg) rotateY(-3deg) scale(1.02); }
+    50% { transform: translateY(0) rotateX(0deg) rotateY(0deg) scale(1); }
+    75% { transform: translateY(-8px) rotateX(-3deg) rotateY(3deg) scale(1.02); }
   }
-  .animate-loading {
-    animation: loading 5s linear forwards;
+  .bounce-tilt-glow {
+    animation: bounceTilt 4s ease-in-out infinite;
+    transform-style: preserve-3d;
   }
 `}
-      </style>
+</style>
 
-      {/* Sequential Lines */}
-      <div className="text-2xl sm:text-3xl font-extrabold text-blue-600 leading-relaxed max-w-2xl space-y-2 mt-1">
-        {visibleLines.map((line, idx) => (
-          <div
-            key={idx}
-            className="opacity-0 animate-fadeIn"
-            style={{ animationDelay: `${idx * 0.2}s` }}
-          >
-            {line}
-          </div>
-        ))}
+
+
+      {/* Loading Bar */}
+      {/* <div className="w-full max-w-md h-2 bg-gray-200 rounded-full mb-8 overflow-hidden shadow-md">
+        <div className="h-full animate-fill bg-gradient-to-r from-pink-400 via-purple-500 to-pink-400 bg-[length:200%_100%]"></div>
+      </div> */}
+
+      <div className="w-full max-w-sm h-1.5 bg-gray-200 rounded-full mb-8 overflow-hidden shadow-md">
+  <div className="h-full animate-fill bg-gradient-to-r from-pink-400 via-purple-500 to-pink-400 bg-[length:200%_100%]"></div>
+</div>
+
+
+      {/* Lines */}
+      <div className="leading-relaxed max-w-2xl mt-2 space-y-2">
+        <div className="text-2xl sm:text-3xl font-extrabold text-blue-600">
+          {firstLine}
+        </div>
+        <div className="text-xl sm:text-2xl font-medium text-black">
+          {secondLine}
+        </div>
       </div>
 
-      <style>
-        {`
-          /* Robot float animation */
-          @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(2deg); }
-            100% { transform: translateY(0) rotate(0deg); }
-          }
+      <style>{`
+        @keyframes fill {
+          0% { width: 0%; background-position: 200% 0; }
+          100% { width: 100%; background-position: -200% 0; }
+        }
+        .animate-fill {
+          animation: fill 5s ease-in-out forwards;
+        }
 
-          /* Text fade-in animation */
-          .animate-fadeIn {
-            animation: fadeIn 1s forwards;
-          }
-          @keyframes fadeIn {
-            to { opacity: 1; }
-          }
-        `}
-      </style>
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+        .animate-bounce-slow {
+          animation: bounce-slow 3s infinite ease-in-out;
+        }
+      `}</style>
     </div>
   );
 };

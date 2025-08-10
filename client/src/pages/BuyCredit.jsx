@@ -4,7 +4,9 @@ import { AppContext } from '../context/AppContext'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import axios from 'axios'
+import axios from 'axios';
+import { API_URL } from "../config";
+
 
 const BuyCredit = () => {
 
@@ -24,7 +26,11 @@ const BuyCredit = () => {
           receipt: order.receipt,
           handler: async (response)=>{
           try {
-           const {data} = await axios.post(backendUrl + '/api/user/verify-razor', response, {headers: {token}}) 
+           const { data } = await axios.post(
+      `${API_URL}/api/user/verify-razor`,
+      response,
+      { headers: { token } }
+    );
            if(data.success){
               loadCreditsData();
               navigate('/')
@@ -46,8 +52,11 @@ const BuyCredit = () => {
             setShowLogin(true)
           }
 
-        const {data} = await axios.post(backendUrl + '/api/user/pay-razor', {planId}, {headers: {token}})
-
+       const { data } = await axios.post(
+  `${API_URL}/api/user/pay-razor`,
+  { planId },
+  { headers: { token } }
+);
         if(data.success){
           initPay(data.order)
         }
